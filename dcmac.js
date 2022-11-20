@@ -68,7 +68,8 @@ function cellularAvoid(){
 		url: "/ajax/managements_ajax/update_ipblock",
 		data: { 'ci_t' : get_cookie('ci_c'), gallery_id : 'purikone_redive', _GALLTYPE_: "M", proxy_time : "2880", mobile_time : "60", proxy_use : 1, mobile_use : 1,img_block:"A",img_block_time:"",img_block_use:0	},
 		dataType :	'json',
-		//success : discord_message('통피 차단 1시간 갱신.'),
+		//success : function() {discord_message('통피 차단 1시간 갱신.');},
+		error : function() {discord_message('통피 차단 갱신 실패. (네트워크 오류)');}
 	});
 }
 
