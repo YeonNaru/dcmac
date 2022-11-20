@@ -1,44 +1,85 @@
-from selenium import webdriver
-import time
-import os
-from urllib.request import urlopen, Request
+// 념글 페이지 띄워놓으면 5초(기본)마다 새로고침 되면서 천안문 함
 
-chrome_options = webdriver.ChromeOptions()
-chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-chrome_options.add_argument("--headless") # 창을 띄우지 않음
-chrome_options.add_argument("--disable-dev-shm-usage")
-chrome_options.add_argument("--no-sandbox") # 샌드박스 보안 비활성화
-driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-mac_toggle = False
+// 천안문 할 유저 닉네임
+var name = [
+	"프린세스페코린느",
+	"대천사아쿠아",
+	"Ether",
+	"페롱"
+]; 
 
-async def dc_mac():
-	global driver
-	global chrome_options
-	global mac_toggle
-	print(">>> driver set...")
-	mac_toggle = True
-	driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-	print(">>> driver start")
-	url="https://gall.dcinside.com/mgallery/board/lists?id=purikone_redive&exception_mode=recommend"
+var min = 50; // 통차 쿨타임 (분 단위)
+var sec = 5; // 천안문 쿨타임 (초 단위)
 
-	user_id="redivehole"
-	pw="mimori1004!"
+cellularAvoid();
+setInterval(() => autoCut(),1000*sec);
+setInterval(() => cellularAvoid(),1000*60*min);
 
-	driver.get(url)
+function autoCut() {
+	$('.gall_list').load(location.href+' .gall_list');
+	console.log('<page load>');
 
-	driver.find_element_by_xpath('//*[@id="top"]/header/div/div[2]/ul/li[9]/a').click()
-	driver.find_element_by_name('user_id').send_keys(user_id)
-	driver.find_element_by_name('pw').send_keys(pw)
-	driver.find_element_by_xpath('//*[@id="container"]/div/article/section/div/div[1]/div/form/fieldset/button').click()
+	var list = $('.gall_writer');
 
-	req = Request('https://raw.githubusercontent.com/YeonNaru/dcmac/main/dcmac.js', headers={"User-Agent": "Mozilla/5.0"})
-	script = urlopen(req).read().decode('utf-8')
-	print(">>> load script")
-	driver.execute_script(script)
-	print(">>> inject script")
+	for(var i=0; i<list.length; i++) {
+	    var writer = $(list[i]).attr('data-nick');
+	    if(name.includes(writer)) {
+	    	var dataNo = $(list[i]).parent()[0].getAttribute('data-no');
+	    	var tit = $(list[i]).parent().children('.gall_tit').children('a').text();
+		if(tit.includes('__')) {continue;}
+	    	update_recom_C('REL', dataNo, tit, writer);
+	    	break;
+	    }
+	}
+}
 
-def dc_mac_close():
-	global driver
-	global mac_toggle
-	mac_toggle = False
-	driver.quit()
+function update_recom_C(type, no, tit, nick) {
+	var allVals = Array();
+	allVals.push(no);
+
+    $.ajax({
+        type : "POST",
+        url : "/ajax/"+ get_gall_type_name() +"_manager_board_ajax/set_recommend",
+        data : {
+        	ci_t : get_cookie('ci_c'),
+        	id: $.getURLParam("id"),
+        	nos : allVals,
+        	_GALLTYPE_: _GALLERY_TYPE_,
+        	mode: type
+        },
+		dataType : 'json',
+        cache : false,
+        async : false,
+        success : function(ajaxData) {
+			message = "'"+tit+"' 개념글 해제 완료 ("+nick+")";
+        	console.log(message);
+			discord_message(message);
+        	$('.gall_list').load(location.href+' .gall_list');
+        },
+        error : function(ajaxData) {
+           console.log('시스템 오류.');
+        }
+    });
+}
+
+function cellularAvoid(){
+	$.ajax({
+		type: "POST",
+		url: "/ajax/managements_ajax/update_ipblock",
+		data: { 'ci_t' : get_cookie('ci_c'), gallery_id : 'purikone_redive', _GALLTYPE_: "M", proxy_time : "2880", mobile_time : "60", proxy_use : 1, mobile_use : 1,img_block:"A",img_block_time:"",img_block_use:0	},
+		dataType :	'json',
+		//success : function() {discord_message('통피 차단 1시간 갱신.');},
+		error : function() {discord_message('통피 차단 갱신 실패. (네트워크 오류)');}
+	});
+}
+
+function discord_message(message) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", 'https://discord.com/api/webhooks/1043800408230998026/ifaCB1Qbu1ocF5Zkz0JtCPlJFHQaqg6DSsX6_i1pUziD_HeftBhWnPTjaUVpUPO7XFdq', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+            'content': message,
+            'username':'시진핑',
+            'avatar_url': 'https://redive.estertion.win/icon/unit/123031.webp',
+        }));
+    }
