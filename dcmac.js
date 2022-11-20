@@ -26,7 +26,7 @@ function autoCut() {
 	    if(name.includes(writer)) {
 	    	var dataNo = $(list[i]).parent()[0].getAttribute('data-no');
 	    	var tit = $(list[i]).parent().children('.gall_tit').children('a').text();
-		if(tit.includes('__')) break;
+		if(tit.includes('__')) {continue;}
 	    	update_recom_C('REL', dataNo, tit, writer);
 	    	break;
 	    }
