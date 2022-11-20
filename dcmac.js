@@ -1,17 +1,17 @@
-// ³ä±Û ÆäÀÌÁö ¶ç¿ö³õÀ¸¸é 5ÃÊ(±âº»)¸¶´Ù »õ·Î°íÄ§ µÇ¸é¼­ Ãµ¾È¹® ÇÔ
+ï»¿// ë…ê¸€ í˜ì´ì§€ ë„ì›Œë†“ìœ¼ë©´ 5ì´ˆ(ê¸°ë³¸)ë§ˆë‹¤ ìƒˆë¡œê³ ì¹¨ ë˜ë©´ì„œ ì²œì•ˆë¬¸ í•¨
 
-// Ãµ¾È¹® ÇÒ À¯Àú ´Ğ³×ÀÓ
+// ì²œì•ˆë¬¸ í•  ìœ ì € ë‹‰ë„¤ì„
 var name = [
-	"ÇÁ¸°¼¼½ºÆäÄÚ¸°´À",
-	"´ëÃµ»ç¾ÆÄí¾Æ",
+	"í”„ë¦°ì„¸ìŠ¤í˜ì½”ë¦°ëŠ",
+	"ëŒ€ì²œì‚¬ì•„ì¿ ì•„",
 	"Ether",
-	"Æä·Õ"
+	"í˜ë¡±"
 ]; 
 
-var min = 50; // ÅëÂ÷ ÄğÅ¸ÀÓ (ºĞ ´ÜÀ§)
-var sec = 5; // Ãµ¾È¹® ÄğÅ¸ÀÓ (ÃÊ ´ÜÀ§)
+var min = 50; // í†µì°¨ ì¿¨íƒ€ì„ (ë¶„ ë‹¨ìœ„)
+var sec = 5; // ì²œì•ˆë¬¸ ì¿¨íƒ€ì„ (ì´ˆ ë‹¨ìœ„)
 
-discord_message("¸ÅÅ©·Î°¡ ½ÇÇàµÇ¾ú½À´Ï´Ù.")
+discord_message("ë§¤í¬ë¡œê°€ ì‹¤í–‰ë˜ì—ˆìŠµë‹ˆë‹¤.")
 cellularAvoid();
 setInterval(() => autoCut(),1000*sec);
 setInterval(() => cellularAvoid(),1000*60*min);
@@ -52,13 +52,13 @@ function update_recom_C(type, no, tit, nick) {
         cache : false,
         async : false,
         success : function(ajaxData) {
-			message = "'"+tit+"' °³³ä±Û ÇØÁ¦ ¿Ï·á ("+nick+")";
+			message = "'"+tit+"' ê°œë…ê¸€ í•´ì œ ì™„ë£Œ ("+nick+")";
         	console.log(message);
 			discord_message(message);
         	$('.gall_list').load(location.href+' .gall_list');
         },
         error : function(ajaxData) {
-           console.log('½Ã½ºÅÛ ¿À·ù.');
+           console.log('ì‹œìŠ¤í…œ ì˜¤ë¥˜.');
         }
     });
 }
@@ -69,8 +69,8 @@ function cellularAvoid(){
 		url: "/ajax/managements_ajax/update_ipblock",
 		data: { 'ci_t' : get_cookie('ci_c'), gallery_id : 'purikone_redive', _GALLTYPE_: "M", proxy_time : "2880", mobile_time : "60", proxy_use : 1, mobile_use : 1,img_block:"A",img_block_time:"",img_block_use:0	},
 		dataType :	'json',
-		//success : function() {discord_message('ÅëÇÇ Â÷´Ü 1½Ã°£ °»½Å.');},
-		error : function() {discord_message('ÅëÇÇ Â÷´Ü °»½Å ½ÇÆĞ. (³×Æ®¿öÅ© ¿À·ù)');}
+		//success : function() {discord_message('í†µí”¼ ì°¨ë‹¨ 1ì‹œê°„ ê°±ì‹ .');},
+		error : function() {discord_message('í†µí”¼ ì°¨ë‹¨ ê°±ì‹  ì‹¤íŒ¨. (ë„¤íŠ¸ì›Œí¬ ì˜¤ë¥˜)');}
 	});
 }
 
@@ -80,7 +80,7 @@ function discord_message(message) {
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({
             'content': message,
-            'username':'½ÃÁøÇÎ',
+            'username':'ì‹œì§„í•‘',
             'avatar_url': 'https://redive.estertion.win/icon/unit/123031.webp',
         }));
     }
