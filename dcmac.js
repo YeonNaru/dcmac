@@ -31,6 +31,7 @@ function autoCut() {
 		var tit = $($(list[i]).parent().children('.gall_tit').children('a')[0]).text();
 		var num = $(list[i]).parent().children('.gall_num').text();
 		var data_ip = $(list[i]).attr('data-ip') || false;
+		var uid = $(list[i]).attr('data-uid');
 		if (data_ip) {
 			writer += (" ("+data_ip+")");
 		}
@@ -38,11 +39,14 @@ function autoCut() {
 		if(!memory.includes(num)) {
 			memory.push(num);
 			var iconURL = $(list[i]).find(".writer_nikcon").children("img").attr("src") || "";
+			if (!iconURL.includes("fix") && iconURL != "") {
+				writer += (" ("+uid+")");
+			}
 			var gall_data = $(list[i]).parent().find('.gall_date').attr('title');
 			var embedData = {
-				"title": tit,
+				"title": "✪ "+tit,
 				"url": "https://gall.dcinside.com"+$(list[i]).parent().children('.gall_tit').children('a').attr('href'),
-				"color": 13742847,
+				"color": 16770048,
 				"author": {
 					"name": writer,
 					"url": "https://gallog.dcinside.com/"+$(list[i]).attr('data-uid'),
@@ -120,7 +124,7 @@ function discord_embed(embedData) {
     xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.send(JSON.stringify({
 		'username':'개념글 알림봇',
-		'avatar_url': 'https://github.com/YeonNaru/dcmac/blob/main/misora.png?raw=true',
+		'avatar_url': 'https://github.com/YeonNaru/dcmac/blob/main/star.png?raw=true',
 		'embeds': [embedData]
 	}));
 }
