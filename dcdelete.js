@@ -58,7 +58,7 @@ function autoDel() {
 	    var tit = $($(list[i]).parent().children('.gall_tit').children('a')[0]).text();
 		var num = $(list[i]).parent().children('.gall_num').text();
 		var data-ip = $(list[i]).attr('data-ip') || false;
-		if data-ip {
+		if (data-ip) {
 			writer += (" ("+data-ip+")");
 		}
 
