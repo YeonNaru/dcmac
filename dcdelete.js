@@ -47,8 +47,9 @@ function autoDel() {
 	    var tit = $(list[i]).parent().children('.gall_tit').children('a').text();
 
 		if (writers.includes(writer)) {
-			if (!memory.includes(tit)) {
-				memory.push(tit);
+			var titText = $($(list[i]).parent().children('.gall_tit').children('a')[0]).text();
+			if (!memory.includes(titText)) {
+				memory.push(titText);
 				var embedData = {
 					"title": tit,
 					"url": "https://gall.dcinside.com"+$(list[i]).parent().children('.gall_tit').children('a').attr('href'),
@@ -140,6 +141,6 @@ function discord_embed(embedData) {
 	xhr.send(JSON.stringify({
 		'username':'유저 알림봇',
 		'avatar_url': 'https://github.com/YeonNaru/dcmac/blob/main/misora.png?raw=true',
-		'embed': embedData
+		'embeds': [embedData]
 	}));
 }
