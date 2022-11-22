@@ -28,7 +28,11 @@ var writers = [
 	"misora",
 	"Ether"
 ]; 
-var memory = ["dummy"];
+var memory = [];
+
+for (val of $('.gall_num')) {
+	memory.push($(val).text());
+}
 
 var sec = 5; // 글삭 쿨타임
 
@@ -44,14 +48,14 @@ function autoDel() {
 	  
 	for(var i=0; i<list.length; i++) {
 	    var writer = $(list[i]).attr('data-nick');
-	    var tit = $(list[i]).parent().children('.gall_tit').children('a').text();
+	    var tit = $($(list[i]).parent().children('.gall_tit').children('a')[0]).text();
+		var num = $(list[i]).parent().children('.gall_num').text();
 
 		if (writers.includes(writer)) {
-			var titText = $($(list[i]).parent().children('.gall_tit').children('a')[0]).text();
-			if (!memory.includes(titText)) {
-				memory.push(titText);
+			if(!memory.includes(num)) {
+				memory.push(num);
 				var embedData = {
-					"title": titText,
+					"title": tit,
 					"url": "https://gall.dcinside.com"+$(list[i]).parent().children('.gall_tit').children('a').attr('href'),
 					"color": 13742847,
 					"author": {
@@ -136,7 +140,7 @@ function banNum(no, writer, tit, avoid_hour, avoid_reason_txt) {
 
 function discord_embed(embedData) {
 	var xhr = new XMLHttpRequest();
-    xhr.open("POST", 'https://discord.com/api/webhooks/1043800408230998026/ifaCB1Qbu1ocF5Zkz0JtCPlJFHQaqg6DSsX6_i1pUziD_HeftBhWnPTjaUVpUPO7XFdq', true);
+    xhr.open("POST", 'https://discord.com/api/webhooks/1044621451564691476/CkbVGUnriZUAVKYerO6-wy_vH4zJiaJGzWDSvo1uscFsOXBYYF2xCE04UyrVHqv-uoXr', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.send(JSON.stringify({
 		'username':'유저 알림봇',

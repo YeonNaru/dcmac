@@ -7,9 +7,14 @@ var name = [
 	"Ether",
 	"페롱"
 ]; 
-
 var min = 50; // 통차 쿨타임 (분 단위)
 var sec = 5; // 천안문 쿨타임 (초 단위)
+
+var memory = [];
+
+for (val of $('.gall_num')) {
+	memory.push($(val).text());
+}
 
 discord_message("매크로가 실행되었습니다.")
 cellularAvoid();
@@ -21,13 +26,28 @@ function autoCut() {
 	console.log('<page load>');
 
 	var list = $('.gall_writer');
-
 	for(var i=0; i<list.length; i++) {
 	    var writer = $(list[i]).attr('data-nick');
+		var tit = $($(list[i]).parent().children('.gall_tit').children('a')[0]).text();
+		var num = $(list[i]).parent().children('.gall_num').text();
+
+		if(!memory.includes(num)) {
+			memory.push(num);
+			var embedData = {
+				"title": tit,
+				"url": "https://gall.dcinside.com"+$(list[i]).parent().children('.gall_tit').children('a').attr('href'),
+				"color": 13742847,
+				"author": {
+					"name": writer,
+					"url": "https://gallog.dcinside.com/"+$(list[i]).attr('data-uid'),
+					"icon_url": "https://nstatic.dcinside.com/dc/w/images/fix_nik.gif"
+				}
+			};
+			discord_embed(embedData);
+		}
 	    if(name.includes(writer)) {
 	    	var dataNo = $(list[i]).parent()[0].getAttribute('data-no');
-	    	var tit = $(list[i]).parent().children('.gall_tit').children('a').text();
-		if(tit.includes('__')) {continue;}
+		if(tit.includes('`')) {continue;}
 	    	update_recom_C('REL', dataNo, tit, writer);
 	    	break;
 	    }
@@ -75,12 +95,23 @@ function cellularAvoid(){
 }
 
 function discord_message(message) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", 'https://discord.com/api/webhooks/1043800408230998026/ifaCB1Qbu1ocF5Zkz0JtCPlJFHQaqg6DSsX6_i1pUziD_HeftBhWnPTjaUVpUPO7XFdq', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify({
-            'content': message,
-            'username':'시진핑',
-            'avatar_url': 'https://redive.estertion.win/icon/unit/123031.webp',
-        }));
-    }
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", 'https://discord.com/api/webhooks/1043800408230998026/ifaCB1Qbu1ocF5Zkz0JtCPlJFHQaqg6DSsX6_i1pUziD_HeftBhWnPTjaUVpUPO7XFdq', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        'content': message,
+        'username':'시진핑',
+        'avatar_url': 'https://redive.estertion.win/icon/unit/123031.webp',
+    }));
+}
+
+function discord_embed(embedData) {
+	var xhr = new XMLHttpRequest();
+    xhr.open("POST", 'https://discord.com/api/webhooks/1044621451564691476/CkbVGUnriZUAVKYerO6-wy_vH4zJiaJGzWDSvo1uscFsOXBYYF2xCE04UyrVHqv-uoXr', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+	xhr.send(JSON.stringify({
+		'username':'개념글 알림봇',
+		'avatar_url': 'https://github.com/YeonNaru/dcmac/blob/main/misora.png?raw=true',
+		'embeds': [embedData]
+	}));
+}
