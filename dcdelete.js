@@ -66,6 +66,7 @@ function autoDel() {
 			if(!memory.includes(num)) {
 				memory.push(num);
 				var iconURL = $(list[i]).find(".writer_nikcon").children("img").attr("src") || "";
+				var gall_data = $(list[i]).parent().find('.gall_date').attr('title');
 				var embedData = {
 					"title": tit,
 					"url": "https://gall.dcinside.com"+$(list[i]).parent().children('.gall_tit').children('a').attr('href'),
@@ -74,6 +75,9 @@ function autoDel() {
 						"name": writer,
 						"url": "https://gallog.dcinside.com/"+$(list[i]).attr('data-uid'),
 						"icon_url": iconURL
+					},
+					"footer": {
+						"text": gall_data
 					}
 				};
 				discord_embed(embedData);
