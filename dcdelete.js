@@ -57,9 +57,9 @@ function autoDel() {
 	    var writer = $(list[i]).attr('data-nick');
 	    var tit = $($(list[i]).parent().children('.gall_tit').children('a')[0]).text();
 		var num = $(list[i]).parent().children('.gall_num').text();
-		var data-ip = $(list[i]).attr('data-ip') || false;
-		if (data-ip) {
-			writer += (" ("+data-ip+")");
+		var data_ip = $(list[i]).attr('data-ip') || false;
+		if (data_ip) {
+			writer += (" ("+data_ip+")");
 		}
 
 		if (writers.includes(writer)) {
