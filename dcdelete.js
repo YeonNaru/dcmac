@@ -51,7 +51,7 @@ function autoDel() {
 			if (!memory.includes(titText)) {
 				memory.push(titText);
 				var embedData = {
-					"title": tit,
+					"title": titText,
 					"url": "https://gall.dcinside.com"+$(list[i]).parent().children('.gall_tit').children('a').attr('href'),
 					"color": 13742847,
 					"author": {
