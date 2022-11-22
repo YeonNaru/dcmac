@@ -1,20 +1,18 @@
 // 념글 페이지 띄워놓으면 5초(기본)마다 새로고침 되면서 천안문 함
-
-// 천안문 할 유저 닉네임
-var name = [
-	"프린세스페코린느",
-	"대천사아쿠아",
-	"Ether",
-	"페롱"
-]; 
-var min = 50; // 통차 쿨타임 (분 단위)
-var sec = 5; // 천안문 쿨타임 (초 단위)
-
+var name = []; 
 var memory = [];
+
+fetch('https://raw.githubusercontent.com/YeonNaru/dcmac/main/config.json').then(res => res.json())
+.then((out) => {
+	name = out["천안문"];
+}).catch(err => { throw err });
 
 for (val of $('.gall_num')) {
 	memory.push($(val).text());
 }
+
+var min = 50; // 통차 쿨타임 (분 단위)
+var sec = 5; // 천안문 쿨타임 (초 단위)
 
 discord_message("매크로가 작동중입니다.");
 cellularAvoid();

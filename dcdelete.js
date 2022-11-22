@@ -9,39 +9,19 @@ var hour = {
 	"30일": 720
 };
 
-// 글삭 키워드
-var keyword = [
-	"아리스가와",
-	"오토메 갤",
-	"오토메갤"
-]; 
-
-// 밴 키워드 : [차단기간, 차단사유]
-var ban = {
-	"치요코케이크":[hour["30일"], "닉언"],
-	"대천사아쿠아":[hour["30일"], "닉언"],
-	"아히나":[hour["30일"], "닉언"]
-};
-
-// 글 알림 닉네임
-var writers = [
-	"misora",
-	"Ether",
-	"올트리오",
-	"셀리아",
-	"듀나단",
-	"대천사아쿠아",
-	"아히나",
-	"아이카츠무기",
-	"멍청한카스미"
-]; 
-
-// 글 알림 ID (반고닉용)
-var uids = [
-	"redivehole"
-];
-
+var keyword = []; 
+var ban = {};
+var writers = []; 
+var uids = [];
 var memory = [];
+
+fetch('https://raw.githubusercontent.com/YeonNaru/dcmac/main/config.json').then(res => res.json())
+.then((out) => {
+	keyword = out["글삭"];
+	ban = out["밴"];
+	writers = out["알림"];
+	uids = out["알림ID"];
+}).catch(err => { throw err });
 
 for (val of $('.gall_num')) {
 	memory.push($(val).text());
