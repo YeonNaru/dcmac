@@ -32,7 +32,7 @@ function autoCut() {
 		var num = $(list[i]).parent().children('.gall_num').text();
 		var data-ip = $(list[i]).attr('data-ip') || false;
 		if data-ip {
-			writer += " ("+data-ip+")";
+			writer += (" ("+data-ip+")");
 		}
 
 		if(!memory.includes(num)) {
