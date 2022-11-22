@@ -16,7 +16,7 @@ for (val of $('.gall_num')) {
 	memory.push($(val).text());
 }
 
-discord_message("매크로가 실행되었습니다.");
+discord_message("매크로가 작동중입니다.");
 cellularAvoid();
 setInterval(() => autoCut(),1000*sec);
 setInterval(() => cellularAvoid(),1000*60*min);
@@ -45,6 +45,7 @@ function autoCut() {
 			var gall_data = $(list[i]).parent().find('.gall_date').attr('title');
 			var embedData = {
 				"title": "✪ "+tit,
+				"description": "",
 				"url": "https://gall.dcinside.com"+$(list[i]).parent().children('.gall_tit').children('a').attr('href'),
 				"color": 16770048,
 				"author": {
@@ -56,14 +57,14 @@ function autoCut() {
 					"text": gall_data
 				}
 			};
-			discord_embed(embedData);
+			if(name.includes(writer) && !tit.includes('`')) {
+	    		var dataNo = $(list[i]).parent()[0].getAttribute('data-no');
+	    		update_recom_C('REL', dataNo, tit, writer, embedData);
+			}
+			else {
+				discord_embed(embedData);
+			}
 		}
-	    if(name.includes(writer)) {
-	    	var dataNo = $(list[i]).parent()[0].getAttribute('data-no');
-		if(tit.includes('`')) {continue;}
-	    	update_recom_C('REL', dataNo, tit, writer);
-	    	break;
-	    }
 	}
 }
 
@@ -85,13 +86,14 @@ function update_recom_C(type, no, tit, nick) {
         cache : false,
         async : false,
         success : function(ajaxData) {
-			message = "'"+tit+"' 개념글 해제 완료 ("+nick+")";
-        	console.log(message);
-			discord_message(message);
+			embedData["description"] = "[매크로] 개념글 해제 완료"
+			discord_embed(embedData);
         	$('.gall_list').load(location.href+' .gall_list');
         },
         error : function(ajaxData) {
-           console.log('시스템 오류.');
+			embedData["description"] = "[매크로] 개념글 해제 실패 (오류)"
+			discord_embed(embedData);
+        	$('.gall_list').load(location.href+' .gall_list');
         }
     });
 }
@@ -124,7 +126,7 @@ function discord_embed(embedData) {
     xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.send(JSON.stringify({
 		'username':'개념글 알림봇',
-		'avatar_url': 'https://github.com/YeonNaru/dcmac/blob/main/star.png?raw=true',
+		'avatar_url': 'https://github.com/YeonNaru/dcmac/blob/main/star_big.png?raw=true',
 		'embeds': [embedData]
 	}));
 }

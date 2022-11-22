@@ -35,6 +35,12 @@ var writers = [
 	"아이카츠무기",
 	"멍청한카스미"
 ]; 
+
+// 글 알림 ID (반고닉용)
+var uids = [
+	"redivehole"
+];
+
 var memory = [];
 
 for (val of $('.gall_num')) {
@@ -58,14 +64,18 @@ function autoDel() {
 	    var tit = $($(list[i]).parent().children('.gall_tit').children('a')[0]).text();
 		var num = $(list[i]).parent().children('.gall_num').text();
 		var data_ip = $(list[i]).attr('data-ip') || false;
+		var uid = $(list[i]).attr('data-uid');
 		if (data_ip) {
 			writer += (" ("+data_ip+")");
 		}
 
-		if (writers.includes(writer)) {
+		if (writers.includes(writer) || uids.includes(uid)) {
 			if(!memory.includes(num)) {
 				memory.push(num);
 				var iconURL = $(list[i]).find(".writer_nikcon").children("img").attr("src") || "";
+				if (!iconURL.includes("fix") && iconURL != "") {
+					writer += (" ("+uid+")");
+				}
 				var gall_data = $(list[i]).parent().find('.gall_date').attr('title');
 				var embedData = {
 					"title": tit,
@@ -73,7 +83,7 @@ function autoDel() {
 					"color": 13742847,
 					"author": {
 						"name": writer,
-						"url": "https://gallog.dcinside.com/"+$(list[i]).attr('data-uid'),
+						"url": "https://gallog.dcinside.com/"+uid,
 						"icon_url": iconURL
 					},
 					"footer": {
@@ -114,17 +124,12 @@ function delNum(no, tit, writer) {
       cache : false,
       async : false,
       success : function(ajaxData) {
-    if(typeof(ajaxData.msg) != 'undefined' && ajaxData.msg) {
-       //alert(ajaxData.msg);
-    }
-
-    if(ajaxData.result == "success") {
-      console.log("'"+tit+"' 삭제 완료. ("+writer+")");
-      $('.gall_list').load(location.href+' .gall_list');
-    }
+		discord_message("'"+tit+"' 삭제 완료 ("+writer+")");
+		$('.gall_list').load(location.href+' .gall_list');
       },
       error : function(data) {
-         console.log('시스템 오류.');
+		discord_message("'"+tit+"' 삭제 실패 ("+writer+")");
+		$('.gall_list').load(location.href+' .gall_list');
       }
   });
 }
@@ -144,14 +149,26 @@ function banNum(no, writer, tit, avoid_hour, avoid_reason_txt) {
 		dataType : 'json',
 	    cache : false,
 	    async : false,
-	    success : function(ajaxData) {
-	    	console.log("'"+tit+"' 삭제&차단 완료. ("+writer+")");
-		    $('.gall_list').load(location.href+' .gall_list');
-	    },
-	    error : function(ajaxData) {
-	       alert('시스템 오류로 작업이 중지되었습니다. 잠시 후 다시 이용해 주세요.');
-	    }
+      success : function(ajaxData) {
+		discord_message("'"+tit+"' 삭제&차단 완료 ("+writer+")");
+		$('.gall_list').load(location.href+' .gall_list');
+      },
+      error : function(data) {
+		discord_message("'"+tit+"' 삭제 실패 ("+writer+")");
+		$('.gall_list').load(location.href+' .gall_list');
+      }
 	});
+}
+
+function discord_message(message) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", 'https://discord.com/api/webhooks/1043800408230998026/ifaCB1Qbu1ocF5Zkz0JtCPlJFHQaqg6DSsX6_i1pUziD_HeftBhWnPTjaUVpUPO7XFdq', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        'content': message,
+        'username':'시진핑',
+        'avatar_url': 'https://redive.estertion.win/icon/unit/123031.webp',
+    }));
 }
 
 function discord_embed(embedData) {
