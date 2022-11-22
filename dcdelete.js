@@ -27,11 +27,12 @@ var ban = {
 var writers = [
 	"misora",
 	"Ether"
-]; var memory = [];
+]; 
+var memory = ["dummy"];
 
 var sec = 5; // 글삭 쿨타임
 
-console.log("<delete mac>")
+console.log("<delete mac>");
 
 setInterval(() => autoDel(),1000*sec);
 
@@ -48,17 +49,17 @@ function autoDel() {
 		if (writers.includes(writer)) {
 			if (!memory.includes(tit)) {
 				memory.push(tit);
-				var embed = {
+				var embedData = {
 					"title": tit,
 					"url": "https://gall.dcinside.com"+$(list[i]).parent().children('.gall_tit').children('a').attr('href'),
 					"color": 13742847,
 					"author": {
 						"name": writer,
-						"url": "https://gallog.dcinside.com/"+$(list[i]).attr('data-uid')
+						"url": "https://gallog.dcinside.com/"+$(list[i]).attr('data-uid'),
 						"icon_url": "https://nstatic.dcinside.com/dc/w/images/fix_nik.gif"
 					}
 				};
-				discord_embed(embed);
+				discord_embed(embedData);
 			}
 		}
 
@@ -132,13 +133,13 @@ function banNum(no, writer, tit, avoid_hour, avoid_reason_txt) {
 	});
 }
 
-function discord_embed(embed) {
+function discord_embed(embedData) {
 	var xhr = new XMLHttpRequest();
     xhr.open("POST", 'https://discord.com/api/webhooks/1043800408230998026/ifaCB1Qbu1ocF5Zkz0JtCPlJFHQaqg6DSsX6_i1pUziD_HeftBhWnPTjaUVpUPO7XFdq', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.send(JSON.stringify({
-		'username':'알림봇',
+		'username':'유저 알림봇',
 		'avatar_url': 'https://github.com/YeonNaru/dcmac/blob/main/misora.png?raw=true',
-		'embed': embed
+		'embed': embedData
 	}));
 }
