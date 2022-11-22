@@ -26,7 +26,14 @@ var ban = {
 // 글 알림 닉네임
 var writers = [
 	"misora",
-	"Ether"
+	"Ether",
+	"올트리오",
+	"셀리아",
+	"듀나단",
+	"대천사아쿠아",
+	"아히나",
+	"아이카츠무기",
+	"멍청한카스미"
 ]; 
 var memory = [];
 
@@ -50,10 +57,15 @@ function autoDel() {
 	    var writer = $(list[i]).attr('data-nick');
 	    var tit = $($(list[i]).parent().children('.gall_tit').children('a')[0]).text();
 		var num = $(list[i]).parent().children('.gall_num').text();
+		var data-ip = $(list[i]).attr('data-ip') || false;
+		if data-ip {
+			writer += " ("+data-ip+")";
+		}
 
 		if (writers.includes(writer)) {
 			if(!memory.includes(num)) {
 				memory.push(num);
+				var iconURL = $(list[i]).find(".writer_nikcon").children("img").attr("src") || "";
 				var embedData = {
 					"title": tit,
 					"url": "https://gall.dcinside.com"+$(list[i]).parent().children('.gall_tit').children('a').attr('href'),
@@ -61,7 +73,7 @@ function autoDel() {
 					"author": {
 						"name": writer,
 						"url": "https://gallog.dcinside.com/"+$(list[i]).attr('data-uid'),
-						"icon_url": "https://nstatic.dcinside.com/dc/w/images/fix_nik.gif"
+						"icon_url": iconURL
 					}
 				};
 				discord_embed(embedData);
