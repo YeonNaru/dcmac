@@ -73,6 +73,7 @@ function autoDel() {
 			if(!memory.includes(num)) {
 				memory.push(num);
 				var iconURL = $(list[i]).find(".writer_nikcon").children("img").attr("src") || "";
+				iconURL = changeImage(iconURL);
 				if (!iconURL.includes("fix") && iconURL != "") {
 					writer += (" ("+uid+")");
 				}
@@ -177,7 +178,13 @@ function discord_embed(embedData) {
     xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.send(JSON.stringify({
 		'username':'유저 알림봇',
-		'avatar_url': 'https://github.com/YeonNaru/dcmac/blob/main/misora.png?raw=true',
+		'avatar_url': 'https://github.com/YeonNaru/dcmac/blob/main/icons/misora.png?raw=true',
 		'embeds': [embedData]
 	}));
+}
+
+function changeImage(url) {
+	var urlSplit = url.split("/");
+	var fileName = urlSplit[urlSplit.length-1];
+	return "https://github.com/YeonNaru/dcmac/blob/main/icons/"+fileName+"?raw=true";
 }
