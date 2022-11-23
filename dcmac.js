@@ -2,13 +2,15 @@
 var name = []; 
 var memory = [];
 
-for (var i=3; i>0; i--) {
-	$('.gall_list').load(location.href+'&page='+i+' .gall_list');
-	await sleep(1);
-	for (val of $('.gall_num')) {
-		memory.push($(val).text());
+(async () => {
+	for (var i=3; i>0; i--) {
+		$('.gall_list').load(location.href+'&page='+i+' .gall_list');
+		await sleep(1);
+		for (val of $('.gall_num')) {
+			memory.push($(val).text());
+		}
 	}
-}
+})();
 
 var min = 50; // 통차 쿨타임 (분 단위)
 var sec = 5; // 천안문 쿨타임 (초 단위)
@@ -32,11 +34,13 @@ function loadData() {
 }
 
 function rutine() {
-	for (var i=2; i>0; i--) {
-		$('.gall_list').load(location.href+'&page='+i+' .gall_list');
-		await sleep(1)
-		autoCut();
-	}
+	(async () => {
+		for (var i=2; i>0; i--) {
+			$('.gall_list').load(location.href+'&page='+i+' .gall_list');
+			await sleep(1)
+			autoCut();
+		}
+	})();
 }
 
 function autoCut() {
