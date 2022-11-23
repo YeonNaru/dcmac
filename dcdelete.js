@@ -34,7 +34,7 @@ function loadData() {
 		keyword = out["글삭"];
 		keyword2 = out["알림키워드"];
 		ban = out["밴"];
-		burgers = out["버거지"];
+		bugers = out["버거지"];
 		writers = out["알림"];
 		uids = out["알림ID"];
 	}).catch(err => { throw err });
@@ -174,14 +174,14 @@ function banNum(no, writer, tit, avoid_hour, avoid_reason_txt) {
 }
 
 function discord_message(message) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", 'https://discord.com/api/webhooks/1043800408230998026/ifaCB1Qbu1ocF5Zkz0JtCPlJFHQaqg6DSsX6_i1pUziD_HeftBhWnPTjaUVpUPO7XFdq', true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify({
-        'content': message,
-        'username':'시진핑',
-        'avatar_url': 'https://redive.estertion.win/icon/unit/123031.webp',
-    }));
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", 'https://discord.com/api/webhooks/1043800408230998026/ifaCB1Qbu1ocF5Zkz0JtCPlJFHQaqg6DSsX6_i1pUziD_HeftBhWnPTjaUVpUPO7XFdq', true);
+	xhr.setRequestHeader('Content-Type', 'application/json');
+	xhr.send(JSON.stringify({
+		'content': message,
+		'username':'시진핑',
+		'avatar_url': 'https://redive.estertion.win/icon/unit/123031.webp',
+	}));
 }
 
 function discord_embed(embedData, name) {
