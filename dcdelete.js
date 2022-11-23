@@ -97,7 +97,7 @@ function autoDel() {
 					discord_embed(embedData,'키워드 알림봇');
 				}
 				else if (bugerCheck) {
-					embedData["description"] = "[버거지 키워드] "+check;
+					embedData["description"] = "[버거지 키워드] "+bugerCheck;
 					discord_thread(embedData, '버거지 알림봇', '1044994571496591442');
 				}
 				else {
