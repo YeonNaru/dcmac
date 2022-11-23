@@ -2,10 +2,9 @@
 var name = []; 
 var memory = [];
 
-var exSub = ["AD", "설문", "공지"];
-for (val of $('.gall_num')) {
-	var subject = $(val).parent().children(".gall_subject").text();
-	if (!exSub.includes(subject)) {
+for (var i=5; i>0; i--) {
+	$('.gall_list').load(location.href+'&page='+i+' .gall_list');
+	for (val of $('.gall_num')) {
 		memory.push($(val).text());
 	}
 }
@@ -17,7 +16,7 @@ discord_message("매크로가 작동중입니다.");
 
 loadData();
 cellularAvoid();
-setInterval(() => autoCut(),1000*sec);
+setInterval(() => rutine(),1000*sec);
 setInterval(() => cellularAvoid(),1000*60*min);
 
 function loadData() {
@@ -27,10 +26,14 @@ function loadData() {
 	}).catch(err => { throw err });
 }
 
-function autoCut() {
-	$('.gall_list').load(location.href+' .gall_list');
-	console.log('<page load>');
+function rutine() {
+	for (var i=2; i>0; i--) {
+		$('.gall_list').load(location.href+'&page='+i+' .gall_list');
+		autoCut();
+	}
+}
 
+function autoCut() {
 	var list = $('.gall_writer');
 	for (var i=0; i<list.length; i++) {
 	    var writer = $(list[i]).attr('data-nick');
@@ -43,16 +46,6 @@ function autoCut() {
 		}
 
 		if (!memory.includes(num)) {
-			var subject = $(list[i]).parent().children(".gall_subject").text();
-			if (exSub.includes(subject)) {
-				continue;
-			}
-			if (Math.min.apply(null, memory) > num) {
-				if (!name.includes(writer) || tit.includes('`')) {
-					memory.push(num);
-					continue;
-				}
-			}
 			memory.push(num);
 			var iconURL = $(list[i]).find(".writer_nikcon").children("img")?.attr("src") || "";
 			iconURL = changeImage(iconURL);
@@ -105,12 +98,10 @@ function update_recom_C(type, no, tit, nick, embedData) {
         success : function(ajaxData) {
 			embedData["description"] = "[매크로] 개념글 해제 완료"
 			discord_embed(embedData);
-        	$('.gall_list').load(location.href+' .gall_list');
         },
         error : function(ajaxData) {
 			embedData["description"] = "[매크로] 개념글 해제 실패 (오류)"
 			discord_embed(embedData);
-        	$('.gall_list').load(location.href+' .gall_list');
         }
     });
 }
