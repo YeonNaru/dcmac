@@ -2,10 +2,10 @@
 var name = []; 
 var memory = [];
 
-for (var i=3; i>0; i--) {
-	$('.gall_list').load(location.href+'&page='+i+' .gall_list');
-	sleep(1);
-	for (val of $('.gall_num')) {
+var exSub = ["AD", "설문", "공지"];
+for (val of $('.gall_num')) {
+	var subject = $(val).parent().children(".gall_subject").text();
+	if (!exSub.includes(subject)) {
 		memory.push($(val).text());
 	}
 }
@@ -17,15 +17,8 @@ discord_message("매크로가 작동중입니다.");
 
 loadData();
 cellularAvoid();
-setInterval(() => rutine(),1000*sec);
+setInterval(() => autoCut(),1000*sec);
 setInterval(() => cellularAvoid(),1000*60*min);
-
-function sleep(sec) {
-    let start = Date.now(), now = start;
-    while (now - start < sec * 1000) {
-        now = Date.now();
-    }
-}
 
 function loadData() {
 	fetch('https://raw.githubusercontent.com/YeonNaru/dcmac/main/config.json').then(res => res.json())
@@ -34,42 +27,46 @@ function loadData() {
 	}).catch(err => { throw err });
 }
 
-function rutine() {
-	for (var i=2; i>0; i--) {
-		$('.gall_list').load(location.href+'&page='+i+' .gall_list');
-		sleep(1)
-		autoCut();
-	}
-}
-
 function autoCut() {
-	var list = $('.gall_writer');
-	for (var i=0; i<list.length; i++) {
-	    var writer = $(list[i]).attr('data-nick');
-		var tit = $($(list[i]).parent().children('.gall_tit').children('a')[0]).text();
-		var num = $(list[i]).parent().children('.gall_num').text();
-		var data_ip = $(list[i]).attr('data-ip') || false;
-		var uid = $(list[i]).attr('data-uid');
+	$('.gall_list').load(location.href+' .gall_list');
+	console.log('<page load>');
+
+	for (list of $('.gall_writer')) {
+	    var writer = $(list).attr('data-nick');
+		var tit = $($(list).parent().children('.gall_tit').children('a')[0]).text();
+		var num = $(list).parent().children('.gall_num').text();
+		var data_ip = $(list).attr('data-ip') || false;
+		var uid = $(list).attr('data-uid');
 		if (data_ip) {
 			writer += (" ("+data_ip+")");
 		}
 
 		if (!memory.includes(num)) {
+			var subject = $(list).parent().children(".gall_subject").text();
+			if (exSub.includes(subject)) {
+				continue;
+			}
+			if (Math.min.apply(null, memory) > num) {
+				if (!name.includes(writer) || tit.includes('`')) {
+					memory.push(num);
+					continue;
+				}
+			}
 			memory.push(num);
-			var iconURL = $(list[i]).find(".writer_nikcon").children("img")?.attr("src") || "";
+			var iconURL = $(list).find(".writer_nikcon").children("img")?.attr("src") || "";
 			iconURL = changeImage(iconURL);
 			if (!iconURL.includes("fix") && iconURL != "") {
 				writer += (" ("+uid+")");
 			}
-			var gall_data = $(list[i]).parent().find('.gall_date').attr('title');
+			var gall_data = $(list).parent().find('.gall_date').attr('title');
 			var embedData = {
 				"title": "✪ "+tit,
 				"description": "",
-				"url": "https://gall.dcinside.com"+$(list[i]).parent().children('.gall_tit').children('a').attr('href'),
+				"url": "https://gall.dcinside.com"+$(list).parent().children('.gall_tit').children('a').attr('href'),
 				"color": 16770048,
 				"author": {
 					"name": writer,
-					"url": "https://gallog.dcinside.com/"+$(list[i]).attr('data-uid'),
+					"url": "https://gallog.dcinside.com/"+$(list).attr('data-uid'),
 					"icon_url": iconURL
 				},
 				"footer": {
@@ -77,7 +74,7 @@ function autoCut() {
 				}
 			};
 			if (name.includes(writer) && !tit.includes('`')) {
-	    		var dataNo = $(list[i]).parent()[0].getAttribute('data-no');
+	    		var dataNo = $(list).parent()[0].getAttribute('data-no');
 	    		update_recom_C('REL', dataNo, tit, writer, embedData);
 			}
 			else {
@@ -107,10 +104,12 @@ function update_recom_C(type, no, tit, nick, embedData) {
         success : function(ajaxData) {
 			embedData["description"] = "[매크로] 개념글 해제 완료"
 			discord_embed(embedData);
+        	$('.gall_list').load(location.href+' .gall_list');
         },
         error : function(ajaxData) {
 			embedData["description"] = "[매크로] 개념글 해제 실패 (오류)"
 			discord_embed(embedData);
+        	$('.gall_list').load(location.href+' .gall_list');
         }
     });
 }
