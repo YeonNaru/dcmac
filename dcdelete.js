@@ -186,8 +186,8 @@ function discord_message(message) {
 
 function discord_embed(embedData, name) {
 	var xhr = new XMLHttpRequest();
-    xhr.open("POST", 'https://discord.com/api/webhooks/1044621451564691476/CkbVGUnriZUAVKYerO6-wy_vH4zJiaJGzWDSvo1uscFsOXBYYF2xCE04UyrVHqv-uoXr', true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
+	xhr.open("POST", 'https://discord.com/api/webhooks/1044621451564691476/CkbVGUnriZUAVKYerO6-wy_vH4zJiaJGzWDSvo1uscFsOXBYYF2xCE04UyrVHqv-uoXr', true);
+	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.send(JSON.stringify({
 		'username':name,
 		'avatar_url': 'https://github.com/YeonNaru/dcmac/blob/main/icons/misora.png?raw=true',
@@ -197,8 +197,8 @@ function discord_embed(embedData, name) {
 
 function discord_thread(embedData, name, threadID) {
 	var xhr = new XMLHttpRequest();
-    xhr.open("POST", 'https://discord.com/api/webhooks/1044621451564691476/CkbVGUnriZUAVKYerO6-wy_vH4zJiaJGzWDSvo1uscFsOXBYYF2xCE04UyrVHqv-uoXr?thread_id='+threadID, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
+	xhr.open("POST", 'https://discord.com/api/webhooks/1044621451564691476/CkbVGUnriZUAVKYerO6-wy_vH4zJiaJGzWDSvo1uscFsOXBYYF2xCE04UyrVHqv-uoXr?thread_id='+threadID, true);
+	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.send(JSON.stringify({
 		'username':name,
 		'avatar_url': 'https://github.com/YeonNaru/dcmac/blob/main/icons/misora.png?raw=true',
