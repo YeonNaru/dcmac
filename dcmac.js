@@ -148,6 +148,7 @@ function discord_embed(embedData) {
 }
 
 function changeImage(url) {
+	if (!url) { return ""; }
 	var urlSplit = url.split("/");
 	var fileName = urlSplit[urlSplit.length-1];
 	return "https://github.com/YeonNaru/dcmac/blob/main/icons/"+fileName+"?raw=true";

@@ -55,7 +55,8 @@ function autoDel() {
 		var check = false;
 		for (word of keyword2) {
 			if (tit.includes(word)) {
-				check = true;
+				check = word;
+				break;
 			}
 		}
 
@@ -70,6 +71,7 @@ function autoDel() {
 				var gall_data = $(list).parent().find('.gall_date').attr('title');
 				var embedData = {
 					"title": tit,
+					"description": "",
 					"url": "https://gall.dcinside.com"+$(list).parent().children('.gall_tit').children('a').attr('href'),
 					"color": 13742847,
 					"author": {
@@ -83,6 +85,7 @@ function autoDel() {
 				};
 				if (check) {
 					var botName = '키워드 알림봇';
+					embedData["description"] = "[키워드] "+check
 				}
 				else {
 					var botName = '유저 알림봇';
@@ -180,6 +183,7 @@ function discord_embed(embedData, name) {
 }
 
 function changeImage(url) {
+	if (!url) { return ""; }
 	var urlSplit = url.split("/");
 	var fileName = urlSplit[urlSplit.length-1];
 	return "https://github.com/YeonNaru/dcmac/blob/main/icons/"+fileName+"?raw=true";
