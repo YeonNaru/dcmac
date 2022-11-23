@@ -32,7 +32,7 @@ function autoCut() {
 	console.log('<page load>');
 
 	var list = $('.gall_writer');
-	for(var i=0; i<list.length; i++) {
+	for (var i=0; i<list.length; i++) {
 	    var writer = $(list[i]).attr('data-nick');
 		var tit = $($(list[i]).parent().children('.gall_tit').children('a')[0]).text();
 		var num = $(list[i]).parent().children('.gall_num').text();
@@ -42,14 +42,16 @@ function autoCut() {
 			writer += (" ("+data_ip+")");
 		}
 
-		if(!memory.includes(num)) {
+		if (!memory.includes(num)) {
 			var subject = $(list[i]).parent().children(".gall_subject").text();
-			if(exSub.includes(subject)) {
+			if (exSub.includes(subject)) {
 				continue;
 			}
-			if(Math.min.apply(null, memory) > num) {
-				memory.push(num);
-				continue;
+			if (Math.min.apply(null, memory) > num) {
+				if (!name.includes(writer) || tit.includes('`')) {
+					memory.push(num);
+					continue;
+				}
 			}
 			memory.push(num);
 			var iconURL = $(list[i]).find(".writer_nikcon").children("img").attr("src") || "";
@@ -72,7 +74,7 @@ function autoCut() {
 					"text": gall_data
 				}
 			};
-			if(name.includes(writer) && !tit.includes('`')) {
+			if (name.includes(writer) && !tit.includes('`')) {
 	    		var dataNo = $(list[i]).parent()[0].getAttribute('data-no');
 	    		update_recom_C('REL', dataNo, tit, writer, embedData);
 			}
