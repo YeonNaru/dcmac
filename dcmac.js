@@ -2,8 +2,9 @@
 var name = []; 
 var memory = [];
 
-for (var i=5; i>0; i--) {
+for (var i=3; i>0; i--) {
 	$('.gall_list').load(location.href+'&page='+i+' .gall_list');
+	await sleep(1);
 	for (val of $('.gall_num')) {
 		memory.push($(val).text());
 	}
@@ -19,6 +20,10 @@ cellularAvoid();
 setInterval(() => rutine(),1000*sec);
 setInterval(() => cellularAvoid(),1000*60*min);
 
+function sleep(sec) {
+  return new Promise(resolve => setTimeout(resolve, sec * 1000));
+}
+
 function loadData() {
 	fetch('https://raw.githubusercontent.com/YeonNaru/dcmac/main/config.json').then(res => res.json())
 	.then((out) => {
@@ -29,6 +34,7 @@ function loadData() {
 function rutine() {
 	for (var i=2; i>0; i--) {
 		$('.gall_list').load(location.href+'&page='+i+' .gall_list');
+		await sleep(1)
 		autoCut();
 	}
 }
