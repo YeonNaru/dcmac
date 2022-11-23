@@ -14,6 +14,7 @@ var keyword2 = [];
 var ban = {};
 var writers = []; 
 var uids = [];
+var bugers = [];
 var memory = [];
 
 for (val of $('.gall_num')) {
@@ -33,6 +34,7 @@ function loadData() {
 		keyword = out["글삭"];
 		keyword2 = out["알림키워드"];
 		ban = out["밴"];
+		burgers = out["버거지"];
 		writers = out["알림"];
 		uids = out["알림ID"];
 	}).catch(err => { throw err });
@@ -53,14 +55,21 @@ function autoDel() {
 		}
 
 		var check = false;
+		var bugerCheck = false;
 		for (word of keyword2) {
 			if (tit.includes(word)) {
 				check = word;
 				break;
 			}
 		}
+		for (word of bugers) {
+			if (tit.includes(word)) {
+				bugerCheck = word;
+				break;
+			}
+		}
 
-		if ((writers.includes(writer) || uids.includes(uid)) || check) {
+		if ((writers.includes(writer) || uids.includes(uid)) || (check || bugerCheck)) {
 			if (!memory.includes(num)) {
 				memory.push(num);
 				var iconURL = $(list).find(".writer_nikcon").children("img")?.attr("src") || "";
@@ -84,13 +93,17 @@ function autoDel() {
 					}
 				};
 				if (check) {
-					var botName = '키워드 알림봇';
-					embedData["description"] = "[키워드] "+check
+					embedData["description"] = "[키워드] "+check;
+					discord_embed(embedData,'키워드 알림봇');
+				}
+				else if (bugerCheck) {
+					embedData["description"] = "[버거지 키워드] "+check;
+					discord_thread(embedData, '버거지 알림봇', '1044994571496591442');
 				}
 				else {
-					var botName = '유저 알림봇';
+					discord_embed(embedData, '유저 알림봇');
 				}
-				discord_embed(embedData, botName);
+				
 			}
 		}
 
@@ -174,6 +187,17 @@ function discord_message(message) {
 function discord_embed(embedData, name) {
 	var xhr = new XMLHttpRequest();
     xhr.open("POST", 'https://discord.com/api/webhooks/1044621451564691476/CkbVGUnriZUAVKYerO6-wy_vH4zJiaJGzWDSvo1uscFsOXBYYF2xCE04UyrVHqv-uoXr', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+	xhr.send(JSON.stringify({
+		'username':name,
+		'avatar_url': 'https://github.com/YeonNaru/dcmac/blob/main/icons/misora.png?raw=true',
+		'embeds': [embedData]
+	}));
+}
+
+function discord_thread(embedData, name, threadID) {
+	var xhr = new XMLHttpRequest();
+    xhr.open("POST", f'https://discord.com/api/webhooks/1044621451564691476/CkbVGUnriZUAVKYerO6-wy_vH4zJiaJGzWDSvo1uscFsOXBYYF2xCE04UyrVHqv-uoXr?thread_id={threadID}', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.send(JSON.stringify({
 		'username':name,
