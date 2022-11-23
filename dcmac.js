@@ -2,22 +2,26 @@
 var name = []; 
 var memory = [];
 
-fetch('https://raw.githubusercontent.com/YeonNaru/dcmac/main/config.json').then(res => res.json())
-.then((out) => {
-	name = out["천안문"];
-}).catch(err => { throw err });
-
 for (val of $('.gall_num')) {
-	memory.push($(val).text());
-}
+		memory.push($(val).text());
+	}
 
 var min = 50; // 통차 쿨타임 (분 단위)
 var sec = 5; // 천안문 쿨타임 (초 단위)
 
 discord_message("매크로가 작동중입니다.");
+
+loadData();
 cellularAvoid();
 setInterval(() => autoCut(),1000*sec);
 setInterval(() => cellularAvoid(),1000*60*min);
+
+function loadData() {
+	fetch('https://raw.githubusercontent.com/YeonNaru/dcmac/main/config.json').then(res => res.json())
+	.then((out) => {
+		name = out["천안문"];
+	}).catch(err => { throw err });
+}
 
 function autoCut() {
 	$('.gall_list').load(location.href+' .gall_list');
@@ -36,6 +40,9 @@ function autoCut() {
 
 		if(!memory.includes(num)) {
 			memory.push(num);
+			if(Math.min.apply(null, memory) > num) {
+				continue;
+			}
 			var iconURL = $(list[i]).find(".writer_nikcon").children("img").attr("src") || "";
 			iconURL = changeImage(iconURL);
 			if (!iconURL.includes("fix") && iconURL != "") {
