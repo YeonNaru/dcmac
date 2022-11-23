@@ -54,7 +54,7 @@ function autoCut() {
 				}
 			}
 			memory.push(num);
-			var iconURL = $(list[i]).find(".writer_nikcon").children("img").attr("src") || "";
+			var iconURL = $(list[i]).find(".writer_nikcon").children("img")?.attr("src") || "";
 			iconURL = changeImage(iconURL);
 			if (!iconURL.includes("fix") && iconURL != "") {
 				writer += (" ("+uid+")");
@@ -85,7 +85,7 @@ function autoCut() {
 	}
 }
 
-function update_recom_C(type, no, tit, nick) {
+function update_recom_C(type, no, tit, nick, embedData) {
 	var allVals = Array();
 	allVals.push(no);
 
