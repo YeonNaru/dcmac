@@ -37,6 +37,7 @@ function autoCut() {
 		var num = $(list).parent().children('.gall_num').text();
 		var data_ip = $(list).attr('data-ip') || false;
 		var uid = $(list).attr('data-uid');
+		var checkName = writer;
 		if (data_ip) {
 			writer += (" ("+data_ip+")");
 		}
@@ -73,7 +74,7 @@ function autoCut() {
 					"text": gall_data
 				}
 			};
-			if (name.includes(writer) && !tit.includes('`')) {
+			if (name.includes(checkName) && !tit.includes('`')) {
 	    		var dataNo = $(list).parent()[0].getAttribute('data-no');
 	    		update_recom_C('REL', dataNo, tit, writer, embedData);
 			}
