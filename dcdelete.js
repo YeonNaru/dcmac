@@ -81,7 +81,13 @@ function autoDel() {
 						"text": gall_data
 					}
 				};
-				discord_embed(embedData);
+				if (check) {
+					var botName = '키워드 알림봇';
+				}
+				else {
+					var botName = '유저 알림봇';
+				}
+				discord_embed(embedData, botName);
 			}
 		}
 
@@ -162,12 +168,12 @@ function discord_message(message) {
     }));
 }
 
-function discord_embed(embedData) {
+function discord_embed(embedData, name) {
 	var xhr = new XMLHttpRequest();
     xhr.open("POST", 'https://discord.com/api/webhooks/1044621451564691476/CkbVGUnriZUAVKYerO6-wy_vH4zJiaJGzWDSvo1uscFsOXBYYF2xCE04UyrVHqv-uoXr', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.send(JSON.stringify({
-		'username':'유저 알림봇',
+		'username':name,
 		'avatar_url': 'https://github.com/YeonNaru/dcmac/blob/main/icons/misora.png?raw=true',
 		'embeds': [embedData]
 	}));
