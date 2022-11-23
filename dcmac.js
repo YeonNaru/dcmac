@@ -2,15 +2,13 @@
 var name = []; 
 var memory = [];
 
-(async () => {
-	for (var i=3; i>0; i--) {
-		$('.gall_list').load(location.href+'&page='+i+' .gall_list');
-		await sleep(1);
-		for (val of $('.gall_num')) {
-			memory.push($(val).text());
-		}
+for (var i=3; i>0; i--) {
+	$('.gall_list').load(location.href+'&page='+i+' .gall_list');
+	sleep(1);
+	for (val of $('.gall_num')) {
+		memory.push($(val).text());
 	}
-})();
+}
 
 var min = 50; // 통차 쿨타임 (분 단위)
 var sec = 5; // 천안문 쿨타임 (초 단위)
@@ -23,7 +21,10 @@ setInterval(() => rutine(),1000*sec);
 setInterval(() => cellularAvoid(),1000*60*min);
 
 function sleep(sec) {
-  return new Promise(resolve => setTimeout(resolve, sec * 1000));
+    let start = Date.now(), now = start;
+    while (now - start < sec * 1000) {
+        now = Date.now();
+    }
 }
 
 function loadData() {
@@ -34,13 +35,11 @@ function loadData() {
 }
 
 function rutine() {
-	(async () => {
-		for (var i=2; i>0; i--) {
-			$('.gall_list').load(location.href+'&page='+i+' .gall_list');
-			await sleep(1)
-			autoCut();
-		}
-	})();
+	for (var i=2; i>0; i--) {
+		$('.gall_list').load(location.href+'&page='+i+' .gall_list');
+		sleep(1)
+		autoCut();
+	}
 }
 
 function autoCut() {
