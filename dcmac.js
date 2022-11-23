@@ -2,9 +2,13 @@
 var name = []; 
 var memory = [];
 
+var exSub = ["AD", "설문", "공지"];
 for (val of $('.gall_num')) {
+	var subject = $(val).parent().children(".gall_subject").text();
+	if (!exSub.includes(subject)) {
 		memory.push($(val).text());
 	}
+}
 
 var min = 50; // 통차 쿨타임 (분 단위)
 var sec = 5; // 천안문 쿨타임 (초 단위)
@@ -39,6 +43,10 @@ function autoCut() {
 		}
 
 		if(!memory.includes(num)) {
+			var subject = $(list[i]).parent().children(".gall_subject").text();
+			if(exSub.includes(subject)) {
+				continue;
+			}
 			if(Math.min.apply(null, memory) > num) {
 				memory.push(num);
 				continue;
