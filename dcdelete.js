@@ -14,6 +14,7 @@ var keyword2 = [];
 var ban = {};
 var writers = []; 
 var uids = [];
+var ips = [];
 var bugers = [];
 var memory = [];
 
@@ -37,6 +38,7 @@ function loadData() {
 		bugers = out["버거지"];
 		writers = out["알림"];
 		uids = out["알림ID"];
+		ips = out["알림IP"];
 	}).catch(err => { throw err });
 }
 
@@ -69,7 +71,7 @@ function autoDel() {
 			}
 		}
 
-		if ((writers.includes(writer) || uids.includes(uid)) || (check || bugerCheck)) {
+		if ((writers.includes(writer) || (uids.includes(uid) || ips.includes(data_ip))) || (check || bugerCheck)) {
 			if (!memory.includes(num)) {
 				memory.push(num);
 				var iconURL = $(list).find(".writer_nikcon").children("img")?.attr("src") || "";
