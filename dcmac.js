@@ -39,10 +39,11 @@ function autoCut() {
 		}
 
 		if(!memory.includes(num)) {
-			memory.push(num);
 			if(Math.min.apply(null, memory) > num) {
+				memory.push(num);
 				continue;
 			}
+			memory.push(num);
 			var iconURL = $(list[i]).find(".writer_nikcon").children("img").attr("src") || "";
 			iconURL = changeImage(iconURL);
 			if (!iconURL.includes("fix") && iconURL != "") {
