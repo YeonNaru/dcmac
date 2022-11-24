@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+
+<html lang="kr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>주작기</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script>
+        function main(i) {
+            url = "https://sign.dcinside.com/login?s_url="+$("#url").val();
+            window.open(url+"&login="+i, "_blank_");
+        }
+    </script>
+</head>
+<body>
+<div>
+
+    주소: <input type="text" id="url">
+    <br><br>
+    <button id="button_1" onclick="main(1);">1</button>
+    <button id="button_2" onclick="main(2);">2</button>
+    <button id="button_3" onclick="main(3);">3</button>
+    <button id="button_4" onclick="main(4);">4</button>
+    <button id="button_5" onclick="main(5);">5</button>
+    <button id="button_6" onclick="main(6);">6</button>
+    <button id="button_7" onclick="main(7);">7</button>
+    <button id="button_8" onclick="main(8);">8</button>
+    <button id="button_9" onclick="main(9);">9</button>
+    <button id="button_10" onclick="main(10);">10</button>
+    <button id="button_11" onclick="main(11);">11</button>
+    <button id="button_12" onclick="main(12);">12</button>
+</div>
+</body>
+</html>
