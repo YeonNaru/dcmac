@@ -29,7 +29,6 @@ function loadData() {
 
 function autoCut() {
 	$('.gall_list').load(location.href+' .gall_list');
-	console.log('<page load>');
 
 	for (list of $('.gall_writer')) {
 	    var writer = $(list).attr('data-nick');
