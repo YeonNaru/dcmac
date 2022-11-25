@@ -13,7 +13,7 @@ for (val of $('.gall_num')) {
 var min = 50; // 통차 쿨타임 (분 단위)
 var sec = 5; // 천안문 쿨타임 (초 단위)
 
-discord_message("매크로가 작동중입니다.");
+//discord_message("매크로가 작동중입니다.");
 
 loadData();
 cellularAvoid();
@@ -76,10 +76,9 @@ function autoCut() {
 			if (name.includes(checkName) && !tit.includes('`')) {
 	    		var dataNo = $(list).parent()[0].getAttribute('data-no');
 	    		update_recom_C('REL', dataNo, tit, writer, embedData);
+				continue;
 			}
-			else {
-				discord_embed(embedData);
-			}
+			discord_embed(embedData);
 		}
 	}
 }
