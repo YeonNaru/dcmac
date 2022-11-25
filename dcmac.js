@@ -52,6 +52,7 @@ function autoCut() {
 					continue;
 				}
 			}
+			secMax = secondMax(memory);
 			memory.push(num);
 			var iconURL = $(list).find(".writer_nikcon").children("img")?.attr("src") || "";
 			iconURL = changeImage(iconURL);
@@ -73,7 +74,7 @@ function autoCut() {
 					"text": gall_data
 				}
 			};
-			if (name.includes(checkName) && !tit.includes('`')) {
+			if ((name.includes(checkName) && secMax > num) && !tit.includes('`')) {
 	    		var dataNo = $(list).parent()[0].getAttribute('data-no');
 	    		update_recom_C('REL', dataNo, tit, writer, embedData);
 				continue;
@@ -151,4 +152,11 @@ function changeImage(url) {
 	var urlSplit = url.split("/");
 	var fileName = urlSplit[urlSplit.length-1];
 	return "https://github.com/YeonNaru/dcmac/blob/main/icons/"+fileName+"?raw=true";
+}
+
+function secondMax(array) {
+	var max = String(Math.max.apply(null, array));
+	var temp = [...array];
+	temp.splice(temp.indexOf(max), 1);
+	return String(Math.max.apply(null, temp));
 }
