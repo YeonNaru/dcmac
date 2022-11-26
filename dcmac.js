@@ -46,7 +46,8 @@ function autoCut() {
 			if (exSub.includes(subject)) {
 				continue;
 			}
-			if (Math.min.apply(null, memory) > num) {
+			
+			if (maxN(memory, memory.length-10) > num) {
 				if (!name.includes(writer) || tit.includes('`')) {
 					memory.push(num);
 					continue;
