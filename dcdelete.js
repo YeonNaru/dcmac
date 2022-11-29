@@ -24,7 +24,7 @@ for (val of $('.gall_num')) {
 
 var sec = 5; // 글삭 쿨타임
 
-console.log("<delete mac>");
+console.log("<delete mac v1>");
 
 loadData();
 setInterval(() => autoDel(),1000*sec);
@@ -123,6 +123,11 @@ function autoDel() {
 	    		break;
 	    	}
 	    }
+
+		if (data_ip == '104.28') {
+			var dataNo = $(list).parent()[0].getAttribute('data-no');
+			banNum(dataNo, writer, tit, 720, 'VPN 차단');
+		}
 	}
 }
 
