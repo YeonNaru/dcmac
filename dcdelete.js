@@ -55,23 +55,19 @@ function autoDel() {
 			writer += (" ("+data_ip+")");
 		}
 
-		var check = false;
-		var bugerCheck = false;
-		for (word of keyword2) {
-			if (tit.includes(word)) {
-				check = word;
-				break;
-			}
-		}
-		for (word of bugers) {
-			if (tit.includes(word)) {
-				bugerCheck = word;
-				break;
-			}
-		}
+		var ch_keyword = ch_word(keyword, tit);
+		var ch_keyword2 = ch_word(keyword2, tit);
+		var ch_bugers = ch_word(bugers, tit);
+		var ch_ban = ch_word(Object.keys(ban), tit);
+
+		var ch_writers = writers.includes(writer)
+		var ch_uids = uids.includes(uid)
+		var ch_ips = ips.includes(data_ip)
+
 		if (!memory.includes(num)) {
 			memory.push(num);
-			if ((writers.includes(writer) || (uids.includes(uid) || ips.includes(data_ip))) || (check || bugerCheck)) {
+			if (ors([ch_keyword, ch_keyword2, ch_bugers, ch_ban, ch_writers, ch_uids,  ch_ips])) {
+				var dataNo = $(list).parent()[0].getAttribute('data-no');
 				var iconURL = $(list).find(".writer_nikcon").children("img")?.attr("src") || "";
 				iconURL = changeImage(iconURL);
 				if (!iconURL.includes("fix") && iconURL != "") {
@@ -92,41 +88,55 @@ function autoDel() {
 						"text": gall_data
 					}
 				};
-				if (check) {
-					embedData["description"] = "[키워드] "+check;
+
+				if(ch_ban) {
+					embedData["description"] = "["+ch_ban+"] 사유: "+ban[ch_ban][1]+"기간: "+ban[ch_ban][0]+"시간";
+					discord_embed(embedData,'차단 알림봇');
+					banNum(dataNo, writer, tit, ban[ch_ban][0], ban[ch_ban][1], embedData);
+				}
+				else if (data_ip == '104.28') {
+					embedData["description"] = "[VPN 차단] 104.28";
+					discord_embed(embedData, '차단 알림봇');
+					banNum(dataNo, writer, tit, 720, 'VPN 차단', embedData);
+				}
+				else if (ch_keyword) {
+					embedData["description"] = "[글삭] " + ch_keyword;
+					discord_embed(embedData, '글삭 알림봇');
+					delNum(dataNo, tit, writer, embedData);
+				}
+				else if (ch_keyword2) {
+					embedData["description"] = "[키워드] "+ch_keyword2;
 					discord_embed(embedData,'키워드 알림봇');
 				}
-				else if (bugerCheck) {
-					embedData["description"] = "[버거지 키워드] "+bugerCheck;
+				else if (ch_bugers) {
+					embedData["description"] = "[버거지 키워드] "+ch_bugers;
 					discord_thread(embedData, '버거지 알림봇', '1044994571496591442');
 				}
 				else {
 					discord_embed(embedData, '유저 알림봇');
 				}
-				
-			}
-			for (key of keyword) {
-	    		if (tit.includes(key)) {
-	    			var dataNo = $(list).parent()[0].getAttribute('data-no');
-		    		delNum(dataNo, tit, writer);
-		    		return;
-	    		}
-			}
-	    
-			for (key of Object.keys(ban)) {
-	    		if (tit.includes(key)) {
-	    			var dataNo = $(list).parent()[0].getAttribute('data-no');
-	    			banNum(dataNo, writer, tit, ban[key][0], ban[key][1]);
-	    			break;
-	    		}
-			}
-
-			if (data_ip == '104.28') {
-				var dataNo = $(list).parent()[0].getAttribute('data-no');
-				banNum(dataNo, writer, tit, 720, 'VPN 차단');
 			}
 		}
 	}
+}
+
+function ch_word(words, text) {
+	var check = false;
+	for (word of words) {
+		if (text.includes(word)) {
+			check = word;
+		}
+	}
+	return check;
+}
+
+function ors(array) {
+	for (val of array) {
+		if (val) {
+			return true;
+		}
+	}
+	return false;
 }
 
 function delNum(no, tit, writer) {
@@ -141,7 +151,6 @@ function delNum(no, tit, writer) {
 		cache : false,
 		async : false,
 		success : function(ajaxData) {
-			discord_message("'"+tit+"' 삭제 완료 ("+writer+")");
 			$('.gall_list').load(location.href+' .gall_list');
 		},
 		error : function(data) {
@@ -167,7 +176,6 @@ function banNum(no, writer, tit, avoid_hour, avoid_reason_txt) {
 	    cache : false,
 	    async : false,
       success : function(ajaxData) {
-		discord_message("'"+tit+"' 삭제&차단 완료 ("+writer+")");
 		$('.gall_list').load(location.href+' .gall_list');
       },
       error : function(data) {
