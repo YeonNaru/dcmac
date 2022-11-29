@@ -69,10 +69,9 @@ function autoDel() {
 				break;
 			}
 		}
-
-		if ((writers.includes(writer) || (uids.includes(uid) || ips.includes(data_ip))) || (check || bugerCheck)) {
-			if (!memory.includes(num)) {
-				memory.push(num);
+		if (!memory.includes(num)) {
+			memory.push(num);
+			if ((writers.includes(writer) || (uids.includes(uid) || ips.includes(data_ip))) || (check || bugerCheck)) {
 				var iconURL = $(list).find(".writer_nikcon").children("img")?.attr("src") || "";
 				iconURL = changeImage(iconURL);
 				if (!iconURL.includes("fix") && iconURL != "") {
@@ -106,27 +105,26 @@ function autoDel() {
 				}
 				
 			}
-		}
-
-	    for (key of keyword) {
-	    	if (tit.includes(key)) {
-	    		var dataNo = $(list).parent()[0].getAttribute('data-no');
-		    	delNum(dataNo, tit, writer);
-		    	return;
-	    	}
-	    }
+			for (key of keyword) {
+	    		if (tit.includes(key)) {
+	    			var dataNo = $(list).parent()[0].getAttribute('data-no');
+		    		delNum(dataNo, tit, writer);
+		    		return;
+	    		}
+			}
 	    
-	    for (key of Object.keys(ban)) {
-	    	if (tit.includes(key)) {
-	    		var dataNo = $(list).parent()[0].getAttribute('data-no');
-	    		banNum(dataNo, writer, tit, ban[key][0], ban[key][1]);
-	    		break;
-	    	}
-	    }
+			for (key of Object.keys(ban)) {
+	    		if (tit.includes(key)) {
+	    			var dataNo = $(list).parent()[0].getAttribute('data-no');
+	    			banNum(dataNo, writer, tit, ban[key][0], ban[key][1]);
+	    			break;
+	    		}
+			}
 
-		if (data_ip == '104.28') {
-			var dataNo = $(list).parent()[0].getAttribute('data-no');
-			banNum(dataNo, writer, tit, 720, 'VPN 차단');
+			if (data_ip == '104.28') {
+				var dataNo = $(list).parent()[0].getAttribute('data-no');
+				banNum(dataNo, writer, tit, 720, 'VPN 차단');
+			}
 		}
 	}
 }
