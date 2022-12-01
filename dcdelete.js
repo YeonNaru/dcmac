@@ -90,7 +90,7 @@ function autoDel() {
 				};
 
 				if(ch_ban) {
-					embedData["description"] = "["+ch_ban+"] 사유: "+ban[ch_ban][1]+"기간: "+ban[ch_ban][0]+"시간";
+					embedData["description"] = "["+ch_ban+"]\n사유: "+ban[ch_ban][1]+"\n기간: "+ban[ch_ban][0]+"시간";
 					discord_embed(embedData,'차단 알림봇');
 					banNum(dataNo, writer, tit, ban[ch_ban][0], ban[ch_ban][1], embedData);
 				}
