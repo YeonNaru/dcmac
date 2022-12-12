@@ -38,7 +38,10 @@ function autoDel() {
 		var ch_keyword2 = ch_word(keyword2, tit);
 		var ch_bugers = ch_word(bugers, tit);
 		var ch_ban = ch_word(Object.keys(ban), tit);
-		var ch_ban_id = ch_word(Object.keys(ban_id), uid);
+		var ch_ban_id = false;
+		if (uid) {
+			ch_ban_id = ch_word(Object.keys(ban_id), uid);
+        }
 		var ch_ban_ip = Object.keys(ban_ip).includes(data_ip);
 
 		var ch_writers = writers.includes(writer)
