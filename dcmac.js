@@ -137,8 +137,9 @@ function cellularAvoid() {
         dataType: 'json',
         //success : function() {discord_message('통피 차단 1시간 갱신.');},
         error: function (data) {
-            var result = JSON.stringify(data);
-            discord_message('통피 차단 갱신 실패.\n'+result);
+            //var result = JSON.stringify(data);
+            discord_message('통피 차단 갱신 실패.');
+            discord_message(data);
         }
     });
 }
