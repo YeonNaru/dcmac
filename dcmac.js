@@ -14,7 +14,6 @@ var sec = 5; // 천안문 쿨타임 (초 단위)
 
 //discord_message("매크로가 작동중입니다.");
 
-loadData();
 cellularAvoid();
 setInterval(() => autoCut(), 1000 * sec);
 setInterval(() => cellularAvoid(), 1000 * 60 * min);

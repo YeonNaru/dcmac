@@ -19,7 +19,6 @@ var sec = 5; // 글삭 쿨타임
 
 console.log("<delete mac v1>");
 
-loadData();
 setInterval(() => autoDel(),1000*sec);
 
 function autoDel() {
