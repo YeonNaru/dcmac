@@ -80,7 +80,7 @@ function autoDel() {
 					banNum(dataNo, writer, tit, ban_ip[data_ip][0], ban_ip[data_ip][1], embedData);
 				}
 				else if (ch_ban_id) {
-					embedData["description"] = "[ID 차단]\nIP: " + ch_ban_id + "\n사유: " + ban_id[ch_ban_id][1] + "\n기간: " + ban_id[ch_ban_id][0] + "시간";
+					embedData["description"] = "[ID 차단]\nID: " + ch_ban_id + "\n사유: " + ban_id[ch_ban_id][1] + "\n기간: " + ban_id[ch_ban_id][0] + "시간";
 					discord_embed(embedData, '차단 알림봇');
 					banNum(dataNo, writer, tit, ban_id[ch_ban_id][0], ban_id[ch_ban_id][1], embedData);
 				}
