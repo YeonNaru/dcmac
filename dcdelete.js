@@ -38,6 +38,7 @@ function autoDel() {
 		var ch_keyword2 = ch_word(keyword2, tit);
 		var ch_bugers = ch_word(bugers, tit);
 		var ch_ban = ch_word(Object.keys(ban), tit);
+		var ch_ban_id = ch_word(Object.keys(ban_id), uid);
 
 		var ch_writers = writers.includes(writer)
 		var ch_uids = uids.includes(uid)
@@ -69,14 +70,19 @@ function autoDel() {
 				};
 
 				if(ch_ban) {
-					embedData["description"] = "["+ch_ban+"]\n사유: "+ban[ch_ban][1]+"\n기간: "+ban[ch_ban][0]+"시간";
+					embedData["description"] = "[" + ch_ban + "]\n사유: " + ban[ch_ban][1] + "\n기간: " + ban[ch_ban][0] + "시간";
 					discord_embed(embedData,'차단 알림봇');
 					banNum(dataNo, writer, tit, ban[ch_ban][0], ban[ch_ban][1], embedData);
 				}
-				else if (data_ip in ban_ip) {
-					embedData["description"] = "[IP 차단]\nIP: "+data_ip+"\n사유: "+ban[1]+"\n기간: "+ban[0]+"시간";
+				else if (ban_ip.includes(data_ip)) {
+					embedData["description"] = "[IP 차단]\nIP: " + data_ip + "\n사유: " + ban_ip[data_ip][1] + "\n기간: " + ban_ip[data_ip][0] + "시간";
 					discord_embed(embedData, '차단 알림봇');
-					banNum(dataNo, writer, tit, ban[0], ban[1], embedData);
+					banNum(dataNo, writer, tit, ban_ip[data_ip][0], ban_ip[data_ip][1], embedData);
+				}
+				else if (ch_ban_id) {
+					embedData["description"] = "[ID 차단]\nIP: " + ch_ban_id + "\n사유: " + ban_ip[ch_ban_id][1] + "\n기간: " + ban_ip[ch_ban_id][0] + "시간";
+					discord_embed(embedData, '차단 알림봇');
+					banNum(dataNo, writer, tit, ban_ip[ch_ban_id][0], ban_ip[ch_ban_id][1], embedData);
 				}
 				else if (ch_keyword) {
 					embedData["description"] = "[글삭] " + ch_keyword;
