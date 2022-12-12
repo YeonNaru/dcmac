@@ -144,7 +144,7 @@ function cellularAvoid() {
 
 function discord_message(message) {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", 'https://discord.com/api/webhooks/1043800408230998026/ifaCB1Qbu1ocF5Zkz0JtCPlJFHQaqg6DSsX6_i1pUziD_HeftBhWnPTjaUVpUPO7XFdq', true);
+    xhr.open("POST", webhook_bot, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify({
         'content': message,
@@ -155,7 +155,7 @@ function discord_message(message) {
 
 function discord_embed(embedData) {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", 'https://discord.com/api/webhooks/1044621451564691476/CkbVGUnriZUAVKYerO6-wy_vH4zJiaJGzWDSvo1uscFsOXBYYF2xCE04UyrVHqv-uoXr', true);
+    xhr.open("POST", webhook_gall, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify({
         'username': '개념글 알림봇',

@@ -187,7 +187,7 @@ function banNum(no, writer, tit, avoid_hour, avoid_reason_txt) {
 
 function discord_message(message) {
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", 'https://discord.com/api/webhooks/1043800408230998026/ifaCB1Qbu1ocF5Zkz0JtCPlJFHQaqg6DSsX6_i1pUziD_HeftBhWnPTjaUVpUPO7XFdq', true);
+	xhr.open("POST", webhook_bot, true);
 	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.send(JSON.stringify({
 		'content': message,
@@ -198,7 +198,7 @@ function discord_message(message) {
 
 function discord_embed(embedData, name) {
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", 'https://discord.com/api/webhooks/1044621451564691476/CkbVGUnriZUAVKYerO6-wy_vH4zJiaJGzWDSvo1uscFsOXBYYF2xCE04UyrVHqv-uoXr', true);
+	xhr.open("POST", webhook_gall, true);
 	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.send(JSON.stringify({
 		'username':name,
@@ -209,7 +209,7 @@ function discord_embed(embedData, name) {
 
 function discord_thread(embedData, name, threadID) {
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", 'https://discord.com/api/webhooks/1044621451564691476/CkbVGUnriZUAVKYerO6-wy_vH4zJiaJGzWDSvo1uscFsOXBYYF2xCE04UyrVHqv-uoXr?thread_id='+threadID, true);
+	xhr.open("POST", webhook_gall+'?thread_id='+threadID, true);
 	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.send(JSON.stringify({
 		'username':name,
