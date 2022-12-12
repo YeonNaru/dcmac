@@ -1,5 +1,4 @@
 // 념글 페이지 띄워놓으면 5초(기본)마다 새로고침 되면서 천안문 함
-var name = [];
 var memory = [];
 
 var exSub = ["AD", "설문", "공지"];
@@ -19,15 +18,6 @@ loadData();
 cellularAvoid();
 setInterval(() => autoCut(), 1000 * sec);
 setInterval(() => cellularAvoid(), 1000 * 60 * min);
-
-function loadData() {
-    fetch('https://raw.githubusercontent.com/YeonNaru/dcmac/main/config.json').then(res => res.json())
-        .then((out) => {
-            name = out["천안문"];
-        }).catch(err => {
-            throw err
-        });
-}
 
 function autoCut() {
     $('.gall_list').load(location.href + ' .gall_list');

@@ -9,13 +9,6 @@ var hour = {
 	"30일": 720
 };
 
-var keyword = []; 
-var keyword2 = [];
-var ban = {};
-var writers = []; 
-var uids = [];
-var ips = [];
-var bugers = [];
 var memory = [];
 
 for (val of $('.gall_num')) {
@@ -28,19 +21,6 @@ console.log("<delete mac v1>");
 
 loadData();
 setInterval(() => autoDel(),1000*sec);
-
-function loadData() {
-	fetch('https://raw.githubusercontent.com/YeonNaru/dcmac/main/config.json').then(res => res.json())
-	.then((out) => {
-		keyword = out["글삭"];
-		keyword2 = out["알림키워드"];
-		ban = out["밴"];
-		bugers = out["버거지"];
-		writers = out["알림"];
-		uids = out["알림ID"];
-		ips = out["알림IP"];
-	}).catch(err => { throw err });
-}
 
 function autoDel() {
 	$('.gall_list').load(location.href+' .gall_list');
@@ -94,10 +74,10 @@ function autoDel() {
 					discord_embed(embedData,'차단 알림봇');
 					banNum(dataNo, writer, tit, ban[ch_ban][0], ban[ch_ban][1], embedData);
 				}
-				else if (data_ip == '104.28') {
-					embedData["description"] = "[VPN 차단] 104.28";
+				else if (data_ip in ban_ip) {
+					embedData["description"] = "[IP 차단]\nIP: "+data_ip+"\n사유: "+ban[1]+"\n기간: "+ban[0]+"시간";
 					discord_embed(embedData, '차단 알림봇');
-					banNum(dataNo, writer, tit, 720, 'VPN 차단', embedData);
+					banNum(dataNo, writer, tit, ban[0], ban[1], embedData);
 				}
 				else if (ch_keyword) {
 					embedData["description"] = "[글삭] " + ch_keyword;
