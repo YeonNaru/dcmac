@@ -16,8 +16,16 @@ var sec_count = 0;
 //discord_message("매크로가 작동중입니다.");
 
 cellularAvoid();
-setInterval(() => autoCut(), 1000 * sec);
-setInterval(() => cellularAvoid(), 1000 * 60 * min);
+setInterval(() => loop(autoCut), 1000 * sec);
+setInterval(() => loop(cellularAvoid), 1000 * 60 * min);
+
+function loop(f) {
+    try {
+        f();
+    } catch (e) {
+        discord.log('dcmac_autoCut', e + '');
+    }
+}
 
 function autoCut() {
     $('.gall_list').load(location.href + ' .gall_list');

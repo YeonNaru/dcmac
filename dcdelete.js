@@ -20,7 +20,15 @@ var sec_count = 0;
 
 console.log("<delete mac v1>");
 
-setInterval(() => autoDel(),1000*sec);
+setInterval(() => loop(), 1000 * sec);
+
+function loop() {
+	try {
+		autoDel();
+	} catch (e) {
+		discord.log('dcdelete_autoDel', e + '');
+	}
+}
 
 function autoDel() {
 	$('.gall_list').load(location.href+' .gall_list');
