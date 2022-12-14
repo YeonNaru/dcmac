@@ -18,7 +18,7 @@ for (val of $('.gall_num')) {
 var sec = 5; // 글삭 쿨타임
 var sec_count = 0;
 
-console.log("<delete mac v1>");
+discord.logs('dcdelete', "매크로가 작동합니다.");
 
 setInterval(() => loop(), 1000 * sec);
 

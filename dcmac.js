@@ -13,7 +13,7 @@ var min = 50; // 통차 쿨타임 (분 단위)
 var sec = 5; // 천안문 쿨타임 (초 단위)
 var sec_count = 0;
 
-//discord_message("매크로가 작동중입니다.");
+discord.logs('dcmac', "매크로가 작동합니다.");
 
 cellularAvoid();
 setInterval(() => loop(autoCut), 1000 * sec);
@@ -49,6 +49,10 @@ function autoCut() {
 
             if (maxN(memory, memory.length - 10) > num) {
                 if (!name.includes(writer) || tit.includes('`')) {
+                    memory.push(num);
+                    continue;
+                }
+                else if (maxN(memory, memory.length - 1) > num) {
                     memory.push(num);
                     continue;
                 }
