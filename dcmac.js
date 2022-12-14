@@ -13,7 +13,7 @@ var min = 50; // 통차 쿨타임 (분 단위)
 var sec = 5; // 천안문 쿨타임 (초 단위)
 var sec_count = 0;
 
-discord.logs('dcmac', "매크로가 작동합니다.");
+discord.log('dcmac', "매크로가 작동합니다.");
 
 cellularAvoid();
 setInterval(() => loop(autoCut), 1000 * sec);
