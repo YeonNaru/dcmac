@@ -16,6 +16,7 @@ for (val of $('.gall_num')) {
 }
 
 var sec = 5; // 글삭 쿨타임
+var sec_count = 0;
 
 console.log("<delete mac v1>");
 
@@ -75,37 +76,43 @@ function autoDel() {
 
 				if(ch_ban) {
 					embedData["description"] = "[" + ch_ban + "]\n사유: " + ban[ch_ban][1] + "\n기간: " + ban[ch_ban][0] + "시간";
-					discord_embed(embedData,'차단 알림봇');
-					banNum(dataNo, writer, tit, ban[ch_ban][0], ban[ch_ban][1], embedData);
+					discord.misora('차단 알림봇', embedData);
+					banNum(dataNo, writer, tit, ban[ch_ban][0], ban[ch_ban][1]);
 				}
 				else if (ch_ban_ip) {
 					embedData["description"] = "[IP 차단]\nIP: " + data_ip + "\n사유: " + ban_ip[data_ip][1] + "\n기간: " + ban_ip[data_ip][0] + "시간";
-					discord_embed(embedData, '차단 알림봇');
-					banNum(dataNo, writer, tit, ban_ip[data_ip][0], ban_ip[data_ip][1], embedData);
+					discord.misora('차단 알림봇', embedData);
+					banNum(dataNo, writer, tit, ban_ip[data_ip][0], ban_ip[data_ip][1]);
 				}
 				else if (ch_ban_id) {
 					embedData["description"] = "[ID 차단]\nID: " + ch_ban_id + "\n사유: " + ban_id[ch_ban_id][1] + "\n기간: " + ban_id[ch_ban_id][0] + "시간";
-					discord_embed(embedData, '차단 알림봇');
-					banNum(dataNo, writer, tit, ban_id[ch_ban_id][0], ban_id[ch_ban_id][1], embedData);
+					discord.misora('차단 알림봇', embedData);
+					banNum(dataNo, writer, tit, ban_id[ch_ban_id][0], ban_id[ch_ban_id][1]);
 				}
 				else if (ch_keyword) {
 					embedData["description"] = "[글삭] " + ch_keyword;
-					discord_embed(embedData, '글삭 알림봇');
-					delNum(dataNo, tit, writer, embedData);
+					discord.misora('글삭 알림봇', embedData);
+					delNum(dataNo, tit, writer);
 				}
 				else if (ch_keyword2) {
 					embedData["description"] = "[키워드] "+ch_keyword2;
-					discord_embed(embedData,'키워드 알림봇');
+					discord.misora('키워드 알림봇', embedData);
 				}
 				else if (ch_bugers) {
-					embedData["description"] = "[버거지 키워드] "+ch_bugers;
-					discord_thread(embedData, '버거지 알림봇', '1044994571496591442');
+					embedData["description"] = "[버거지 키워드] " + ch_bugers;
+					discord.misora('버거지 알림봇', embedData, '1044994571496591442');
 				}
 				else {
-					discord_embed(embedData, '유저 알림봇');
+					discord.misora('유저 알림봇', embedData);
 				}
 			}
 		}
+	}
+
+	sec_count++;
+	if (sec_count >= 12) {
+		sec_count = 0;
+		discord.log('dcdelete', '12회 루프 성공 (1분)');
 	}
 }
 
@@ -139,11 +146,12 @@ function delNum(no, tit, writer) {
 		dataType : 'json',
 		cache : false,
 		async : false,
-		success : function(ajaxData) {
+		success: function (ajaxData) {
+			discord.log('dcdelete', "'" + tit + "' 삭제 성공 (" + writer + ")");
 			$('.gall_list').load(location.href+' .gall_list');
 		},
 		error : function(data) {
-			discord_message("'"+tit+"' 삭제 실패 ("+writer+")");
+			discord.log('dcdelete', "'"+tit+"' 삭제 실패 ("+writer+")");
 			$('.gall_list').load(location.href+' .gall_list');
 		}
 	});
@@ -164,47 +172,15 @@ function banNum(no, writer, tit, avoid_hour, avoid_reason_txt) {
 		dataType : 'json',
 	    cache : false,
 	    async : false,
-      success : function(ajaxData) {
-		$('.gall_list').load(location.href+' .gall_list');
-      },
-      error : function(data) {
-		discord_message("'"+tit+"' 삭제 실패 ("+writer+")");
-		$('.gall_list').load(location.href+' .gall_list');
-      }
+		success: function (ajaxData) {
+			discord.log('dcdelete', "'" + tit + "' 차단 성공 (" + writer + ")");
+			$('.gall_list').load(location.href+' .gall_list');
+		 },
+		error : function(data) {
+			discord.log('dcdelete', "'" + tit + "' 차단 실패 (" + writer + ")");
+			$('.gall_list').load(location.href+' .gall_list');
+		}
 	});
-}
-
-function discord_message(message) {
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", webhook_bot, true);
-	xhr.setRequestHeader('Content-Type', 'application/json');
-	xhr.send(JSON.stringify({
-		'content': message,
-		'username':'시진핑',
-		'avatar_url': 'https://redive.estertion.win/icon/unit/123031.webp',
-	}));
-}
-
-function discord_embed(embedData, name) {
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", webhook_gall, true);
-	xhr.setRequestHeader('Content-Type', 'application/json');
-	xhr.send(JSON.stringify({
-		'username':name,
-		'avatar_url': 'https://github.com/YeonNaru/dcmac/blob/main/icons/misora.png?raw=true',
-		'embeds': [embedData]
-	}));
-}
-
-function discord_thread(embedData, name, threadID) {
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", webhook_gall+'?thread_id='+threadID, true);
-	xhr.setRequestHeader('Content-Type', 'application/json');
-	xhr.send(JSON.stringify({
-		'username':name,
-		'avatar_url': 'https://github.com/YeonNaru/dcmac/blob/main/icons/misora.png?raw=true',
-		'embeds': [embedData]
-	}));
 }
 
 function changeImage(url) {

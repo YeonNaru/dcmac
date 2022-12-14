@@ -11,6 +11,7 @@ for (val of $('.gall_num')) {
 
 var min = 50; // 통차 쿨타임 (분 단위)
 var sec = 5; // 천안문 쿨타임 (초 단위)
+var sec_count = 0;
 
 //discord_message("매크로가 작동중입니다.");
 
@@ -72,8 +73,14 @@ function autoCut() {
                 update_recom_C('REL', dataNo, tit, writer, embedData);
                 continue;
             }
-            discord_embed(embedData);
+            discord.star(embedData);
         }
+    }
+
+    sec_count++;
+    if (sec_count >= 12) {
+        sec_count = 0;
+        discord.log('dcmac', '12회 루프 성공 (1분)');
     }
 }
 
@@ -96,12 +103,12 @@ function update_recom_C(type, no, tit, nick, embedData) {
         async: false,
         success: function () {
             embedData["description"] = "[매크로] 개념글 해제 완료"
-            discord_embed(embedData);
+            discord.star(embedData);
             $('.gall_list').load(location.href + ' .gall_list');
         },
         error: function () {
             embedData["description"] = "[매크로] 개념글 해제 실패 (오류)"
-            discord_embed(embedData);
+            discord.star(embedData);
             $('.gall_list').load(location.href + ' .gall_list');
         }
     });
@@ -124,33 +131,14 @@ function cellularAvoid() {
             img_block_use: 0
         },
         dataType: 'json',
-        //success : function() {discord_message('통피 차단 1시간 갱신.');},
+        success: function () {
+            discord.log('dcmac', '통피 차단 1시간 갱신.');
+        },
         error: function () {
-            discord_message('통피 차단 갱신 실패. (오류)');
+            discord.bot('통피 차단 갱신 실패. (오류)');
+            discord.log('dcmac', '통피 차단 갱신 실패. (오류)');
         }
     });
-}
-
-function discord_message(message) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", webhook_bot, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify({
-        'content': message,
-        'username': '시진핑',
-        'avatar_url': 'https://redive.estertion.win/icon/unit/123031.webp',
-    }));
-}
-
-function discord_embed(embedData) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", webhook_gall, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify({
-        'username': '개념글 알림봇',
-        'avatar_url': 'https://github.com/YeonNaru/dcmac/blob/main/icons/star_big.png?raw=true',
-        'embeds': [embedData]
-    }));
 }
 
 function changeImage(url) {
